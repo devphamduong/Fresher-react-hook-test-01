@@ -4,6 +4,7 @@ import ModalAddNewUser from './ModalAddNewUser';
 import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
 import ModalUpdateUser from './ModalUpdateUser';
+import _ from 'lodash';
 
 function TableUsers(props) {
     const [listUsers, setListUsers] = useState([]);
@@ -42,6 +43,13 @@ function TableUsers(props) {
 
     const handleUpdateTable = (user) => {
         setListUsers([user, ...listUsers]);
+    };
+
+    const handleUpdateUserModal = (user) => {
+        let index = listUsers.findIndex(item => item.id === user.id);
+        let copiedListUsers = _.cloneDeep(listUsers);
+        copiedListUsers[index].first_name = user.first_name;
+        setListUsers(copiedListUsers);
     };
 
     const handleUpdateUser = (user) => {
@@ -104,7 +112,7 @@ function TableUsers(props) {
                 renderOnZeroPageCount={null}
             />
             <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
-            <ModalUpdateUser show={showModalUpdate} handleClose={handleCloseModalUpdate} dataUser={dataUser} handleUpdateTable={handleUpdateTable} />
+            <ModalUpdateUser show={showModalUpdate} handleClose={handleCloseModalUpdate} dataUser={dataUser} handleUpdateUserModal={handleUpdateUserModal} />
             <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
         </>
     );

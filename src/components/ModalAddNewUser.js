@@ -14,9 +14,9 @@ function ModalAddNewUser(props) {
         if (res && res.id) {
             setName('');
             setJob('');
-            toast.success('Added User successfully!');
             handleUpdateTable({ id: res.id, first_name: name });
             handleClose();
+            toast.success('Add User successfully!');
         } else {
             toast.error('Something wrong!');
         }
