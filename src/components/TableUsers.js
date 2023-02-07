@@ -5,6 +5,7 @@ import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
 import ModalUpdateUser from './ModalUpdateUser';
 import _ from 'lodash';
+import ModalDeleteUser from './ModalDeleteUser';
 
 function TableUsers(props) {
     const [listUsers, setListUsers] = useState([]);
@@ -15,11 +16,12 @@ function TableUsers(props) {
         setShowModalCreate(false);
     };
     const [showModalUpdate, setShowModalUpdate] = useState(false);
-    const [dataUser, setDataUser] = useState({});
+    const [dataUserUpdate, setDataUserUpdate] = useState({});
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
     };
     const [showModalDelete, setShowModalDelete] = useState(false);
+    const [dataUserDelete, setDataUserDelete] = useState({});
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
     };
@@ -52,9 +54,20 @@ function TableUsers(props) {
         setListUsers(copiedListUsers);
     };
 
+    const handleDeleteUserModal = (user) => {
+        let copiedListUsers = _.cloneDeep(listUsers);
+        copiedListUsers = copiedListUsers.filter(item => item.id !== user.id);
+        setListUsers(copiedListUsers);
+    };
+
     const handleUpdateUser = (user) => {
-        setDataUser(user);
+        setDataUserUpdate(user);
         setShowModalUpdate(true);
+    };
+
+    const handleDeleteUser = (user) => {
+        setDataUserDelete(user);
+        setShowModalDelete(true);
     };
 
     return (
@@ -84,7 +97,7 @@ function TableUsers(props) {
                                     <td>{item.last_name}</td>
                                     <td>
                                         <button className='btn btn-warning mx-3' onClick={() => handleUpdateUser(item)}>Edit</button>
-                                        <button className='btn btn-danger'>Delete</button>
+                                        <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
                                     </td>
                                 </tr>
                             );
@@ -112,8 +125,8 @@ function TableUsers(props) {
                 renderOnZeroPageCount={null}
             />
             <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
-            <ModalUpdateUser show={showModalUpdate} handleClose={handleCloseModalUpdate} dataUser={dataUser} handleUpdateUserModal={handleUpdateUserModal} />
-            <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
+            <ModalUpdateUser show={showModalUpdate} handleClose={handleCloseModalUpdate} dataUserUpdate={dataUserUpdate} handleUpdateUserModal={handleUpdateUserModal} />
+            <ModalDeleteUser show={showModalDelete} handleClose={handleCloseModalDelete} dataUserDelete={dataUserDelete} handleDeleteUserModal={handleDeleteUserModal} />
         </>
     );
 }
