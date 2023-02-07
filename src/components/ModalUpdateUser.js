@@ -1,34 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { createUser } from '../services/UserService';
 
-function ModalAddNewUser(props) {
-    const { show, handleClose, handleUpdateTable } = props;
+function ModalUpdateUser(props) {
+    const { show, handleClose, dataUser, handleUpdateTable } = props;
     const [name, setName] = useState();
     const [job, setJob] = useState();
 
-    const handleAddUser = async () => {
-        let res = await createUser(name, job);
-        if (res && res.id) {
-            setName('');
-            setJob('');
-            toast.success('Added User successfully!');
-            handleUpdateTable({ id: res.id, first_name: name });
-            handleClose();
-        } else {
-            toast.error('Something wrong!');
-        }
+    const handleEditUser = async () => {
+        // let res = await createUser(name, job);
+        // if (res && res.id) {
+        //     setName('');
+        //     setJob('');
+        //     toast.success('Added User successfully!');
+        //     handleUpdateTable({ id: res.id, first_name: name });
+        //     handleClose();
+        // } else {
+        //     toast.error('Something wrong!');
+        // }
     };
+
+    useEffect(() => {
+        if (show) {
+            setName(dataUser.first_name);
+        }
+    }, [dataUser]);
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add new User</Modal.Title>
+                <Modal.Title>Edit a User</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className='modal-add-user'>
+                <div className='modal-edit-user'>
                     <div className='form-group'>
                         <div className='mb-3'>
                             <label className='form-label'>Name</label>
@@ -45,12 +51,12 @@ function ModalAddNewUser(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleAddUser()}>
-                    Add
+                <Button variant="primary" onClick={() => handleEditUser()}>
+                    Save Changes
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default ModalAddNewUser;
+export default ModalUpdateUser;

@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import ModalAddNewUser from './ModalAddNewUser';
 import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
+import ModalUpdateUser from './ModalUpdateUser';
 
 function TableUsers(props) {
     const [listUsers, setListUsers] = useState([]);
@@ -13,6 +14,7 @@ function TableUsers(props) {
         setShowModalCreate(false);
     };
     const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const [dataUser, setDataUser] = useState({});
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
     };
@@ -39,7 +41,12 @@ function TableUsers(props) {
     };
 
     const handleUpdateTable = (user) => {
-        setListUsers([...listUsers], user);
+        setListUsers([user, ...listUsers]);
+    };
+
+    const handleUpdateUser = (user) => {
+        setDataUser(user);
+        setShowModalUpdate(true);
     };
 
     return (
@@ -68,7 +75,7 @@ function TableUsers(props) {
                                     <td>{item.first_name}</td>
                                     <td>{item.last_name}</td>
                                     <td>
-                                        <button className='btn btn-warning'>Edit</button>
+                                        <button className='btn btn-warning mx-3' onClick={() => handleUpdateUser(item)}>Edit</button>
                                         <button className='btn btn-danger'>Delete</button>
                                     </td>
                                 </tr>
@@ -96,6 +103,8 @@ function TableUsers(props) {
                 activeClassName='active'
                 renderOnZeroPageCount={null}
             />
+            <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
+            <ModalUpdateUser show={showModalUpdate} handleClose={handleCloseModalUpdate} dataUser={dataUser} handleUpdateTable={handleUpdateTable} />
             <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
         </>
     );
