@@ -47,8 +47,8 @@ function TableUsers(props) {
                                     <td>{item.first_name}</td>
                                     <td>{item.last_name}</td>
                                     <td>
-                                        <button></button>
-                                        <button></button>
+                                        <button className='btn btn-warning'>Edit</button>
+                                        <button className='btn btn-danger'>Delete</button>
                                     </td>
                                 </tr>
                             );
