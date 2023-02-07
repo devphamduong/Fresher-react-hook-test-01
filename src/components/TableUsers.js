@@ -4,7 +4,7 @@ import ModalAddNewUser from './ModalAddNewUser';
 import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
 import ModalUpdateUser from './ModalUpdateUser';
-import _ from 'lodash';
+import _, { debounce } from 'lodash';
 import ModalDeleteUser from './ModalDeleteUser';
 import './TableUser.scss';
 
@@ -14,6 +14,7 @@ function TableUsers(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [sortBy, setSortBy] = useState('asc');
     const [sortField, setSortField] = useState('id');
+    const [keyWord, setKeyWord] = useState('');
     const [showModalCreate, setShowModalCreate] = useState(false);
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
@@ -81,11 +82,25 @@ function TableUsers(props) {
         setListUsers(copiedListUsers);
     };
 
+    const handleSearch = debounce((event) => {
+        let term = event.target.value;
+        if (term) {
+            let copiedListUsers = _.cloneDeep(listUsers);
+            copiedListUsers = copiedListUsers.filter(item => item.email.includes(term));
+            setListUsers(copiedListUsers);
+        } else {
+            getDataUsers(1);
+        }
+    }, 500);
+
     return (
         <>
             <div className='my-3 add-new'>
                 <span><strong>List Users:</strong></span>
                 <button className='btn btn-info' onClick={() => setShowModalCreate(true)}>Add new User</button>
+            </div>
+            <div className='form-group my-3'>
+                <input className='form-control' placeholder='Search user by email...' onChange={(event) => handleSearch(event)} />
             </div>
             <Table striped bordered hover>
                 <thead>
