@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import ModalAddNewUser from './ModalAddNewUser';
 import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
 
@@ -7,6 +8,18 @@ function TableUsers(props) {
     const [listUsers, setListUsers] = useState([]);
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [showModalCreate, setShowModalCreate] = useState(false);
+    const handleCloseModalCreate = () => {
+        setShowModalCreate(false);
+    };
+    const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const handleCloseModalUpdate = () => {
+        setShowModalUpdate(false);
+    };
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const handleCloseModalDelete = () => {
+        setShowModalDelete(false);
+    };
 
     useEffect(() => {
         getDataUsers(1);
@@ -25,8 +38,16 @@ function TableUsers(props) {
         getDataUsers(+event.selected + 1);
     };
 
+    const handleUpdateTable = (user) => {
+        setListUsers([...listUsers], user);
+    };
+
     return (
         <>
+            <div className='my-3 add-new'>
+                <span><strong>List Users:</strong></span>
+                <button className='btn btn-info' onClick={() => setShowModalCreate(true)}>Add new User</button>
+            </div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -75,6 +96,7 @@ function TableUsers(props) {
                 activeClassName='active'
                 renderOnZeroPageCount={null}
             />
+            <ModalAddNewUser show={showModalCreate} handleClose={handleCloseModalCreate} handleUpdateTable={handleUpdateTable} />
         </>
     );
 }
