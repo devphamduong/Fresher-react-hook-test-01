@@ -16,6 +16,7 @@ function TableUsers(props) {
     const [sortBy, setSortBy] = useState('asc');
     const [sortField, setSortField] = useState('id');
     const [keyWord, setKeyWord] = useState('');
+    const [dataExport, setDataExport] = useState([]);
     const [showModalCreate, setShowModalCreate] = useState(false);
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
@@ -93,12 +94,24 @@ function TableUsers(props) {
             getDataUsers(1);
         }
     }, 500);
-    const csvData = [
-        ["firstname", "lastname", "email"],
-        ["Ahmed", "Tomi", "ah@smthing.co.com"],
-        ["Raed", "Labes", "rl@smthing.co.com"],
-        ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-    ];
+
+    const getUsersExport = (event, done) => {
+        let result = [];
+        if (listUsers && listUsers.length > 0) {
+            result.push(['Id', 'Email', 'First name', 'Last name']);
+            listUsers.map((item, index) => {
+                let arr = [];
+                arr[0] = item.id;
+                arr[1] = item.email;
+                arr[2] = item.first_name;
+                arr[3] = item.last_name;
+                result.push(arr);
+            });
+            setDataExport(result);
+            done();
+        }
+    };
+
     return (
         <>
             <div className='my-3 add-new'>
@@ -108,7 +121,7 @@ function TableUsers(props) {
                         <i className='fa-solid fa-file-arrow-up'></i> Import
                     </label>
                     <input id='import' type={'file'} hidden />
-                    <CSVLink data={csvData} filename={"users.csv"} className="btn btn-primary"><i className='fa-solid fa-file-arrow-down'></i> Export</CSVLink>
+                    <CSVLink data={dataExport} asyncOnClick onClick={getUsersExport} filename={"users.csv"} className="btn btn-primary"><i className='fa-solid fa-file-arrow-down'></i> Export</CSVLink>
                     <button className='btn btn-info' onClick={() => setShowModalCreate(true)}>
                         <i className='fa-solid fa-circle-plus'></i> Add new
                     </button>
