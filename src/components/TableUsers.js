@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import ModalUpdateUser from './ModalUpdateUser';
 import _, { debounce } from 'lodash';
 import ModalDeleteUser from './ModalDeleteUser';
+import { CSVLink } from "react-csv";
 import './TableUser.scss';
 
 function TableUsers(props) {
@@ -92,12 +93,26 @@ function TableUsers(props) {
             getDataUsers(1);
         }
     }, 500);
-
+    const csvData = [
+        ["firstname", "lastname", "email"],
+        ["Ahmed", "Tomi", "ah@smthing.co.com"],
+        ["Raed", "Labes", "rl@smthing.co.com"],
+        ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+    ];
     return (
         <>
             <div className='my-3 add-new'>
                 <span><strong>List Users:</strong></span>
-                <button className='btn btn-info' onClick={() => setShowModalCreate(true)}>Add new User</button>
+                <div className='group-btns'>
+                    <label className='btn btn-warning' htmlFor='import'>
+                        <i className='fa-solid fa-file-arrow-up'></i> Import
+                    </label>
+                    <input id='import' type={'file'} hidden />
+                    <CSVLink data={csvData} filename={"users.csv"} className="btn btn-primary"><i className='fa-solid fa-file-arrow-down'></i> Export</CSVLink>
+                    <button className='btn btn-info' onClick={() => setShowModalCreate(true)}>
+                        <i className='fa-solid fa-circle-plus'></i> Add new
+                    </button>
+                </div>
             </div>
             <div className='form-group my-3'>
                 <input className='form-control' placeholder='Search user by email...' onChange={(event) => handleSearch(event)} />
