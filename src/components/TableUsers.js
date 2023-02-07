@@ -6,11 +6,14 @@ import ReactPaginate from 'react-paginate';
 import ModalUpdateUser from './ModalUpdateUser';
 import _ from 'lodash';
 import ModalDeleteUser from './ModalDeleteUser';
+import './TableUser.scss';
 
 function TableUsers(props) {
     const [listUsers, setListUsers] = useState([]);
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [sortBy, setSortBy] = useState('asc');
+    const [sortField, setSortField] = useState('id');
     const [showModalCreate, setShowModalCreate] = useState(false);
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
@@ -70,6 +73,14 @@ function TableUsers(props) {
         setShowModalDelete(true);
     };
 
+    const handleSort = (sortBy, sortField) => {
+        setSortBy(sortBy);
+        setSortField(sortField);
+        let copiedListUsers = _.cloneDeep(listUsers);
+        copiedListUsers = _.orderBy(copiedListUsers, [sortField], [sortBy]);
+        setListUsers(copiedListUsers);
+    };
+
     return (
         <>
             <div className='my-3 add-new'>
@@ -79,9 +90,25 @@ function TableUsers(props) {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>ID</span>
+                                <span>
+                                    <i className="fa-solid fa-arrow-down-long" onClick={() => handleSort('desc', 'id')}></i>
+                                    <i className="fa-solid fa-arrow-up-long" onClick={() => handleSort('desc', 'id')}></i>
+                                </span>
+                            </div>
+                        </th>
                         <th>Email</th>
-                        <th>First Name</th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>First Name</span>
+                                <span>
+                                    <i className="fa-solid fa-arrow-down-long" onClick={() => handleSort('desc', 'first_name')}></i>
+                                    <i className="fa-solid fa-arrow-up-long" onClick={() => handleSort('asc', 'first_name')}></i>
+                                </span>
+                            </div>
+                        </th>
                         <th>Last Name</th>
                         <th>Actions</th>
                     </tr>
