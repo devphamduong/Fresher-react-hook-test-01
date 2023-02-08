@@ -179,7 +179,7 @@ function TableUsers(props) {
                                 <span>ID</span>
                                 <span>
                                     <i className="fa-solid fa-arrow-down-long" onClick={() => handleSort('desc', 'id')}></i>
-                                    <i className="fa-solid fa-arrow-up-long" onClick={() => handleSort('desc', 'id')}></i>
+                                    <i className="fa-solid fa-arrow-up-long" onClick={() => handleSort('asc', 'id')}></i>
                                 </span>
                             </div>
                         </th>
