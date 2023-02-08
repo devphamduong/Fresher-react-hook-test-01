@@ -7,7 +7,7 @@ function Home() {
                 <div className="left">
                     <strong>Yêu cầu</strong>
                     <ul>
-                        <li>Sử dụng API  từ trang web <a href="https://reqres.in/">https://reqres.in/</a> để  tạo website.</li>
+                        <li>Sử dụng API  từ trang web <a href="https://reqres.in/" target={'_blank'}>https://reqres.in/</a> để  tạo website.</li>
                         <li>Sử dụng thư viện React để tạo một màn hình website cơ bản bao gồm các chức năng:
                             <ol>
                                 <li>&nbsp;&nbsp;&nbsp;&nbsp;Đăng nhập</li>
