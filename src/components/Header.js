@@ -22,8 +22,8 @@ function Header(props) {
                         </Nav>
                         <Nav>
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                                <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                                <NavLink className='dropdown-item' to="/login">Login</NavLink>
+                                <NavLink className='dropdown-item' to="/">Logout</NavLink>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
