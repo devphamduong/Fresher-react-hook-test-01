@@ -1,10 +1,12 @@
 import { Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import './App.scss';
 import Header from './components/Header';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
+  const dataUser = useSelector(state => state.user.account);
 
   return (
     <>
