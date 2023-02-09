@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -8,12 +9,19 @@ import logoApp from '../assets/images/logo192.png';
 
 function Header(props) {
     const navigate = useNavigate();
+    const [hideHeader, setHideHeader] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
         navigate('/');
         toast.success("Log out successfully!");
     };
+
+    // useEffect(() => {
+    //     if (window.location.pathname === '/login') {
+    //         setHideHeader(true);
+    //     }
+    // }, []);
 
     return (
         <>
@@ -25,16 +33,20 @@ function Header(props) {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <NavLink className='nav-link' to={'/'}>Home</NavLink>
-                            <NavLink className='nav-link' to={'/users'}>Manage Users</NavLink>
-                        </Nav>
-                        <Nav>
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavLink className='dropdown-item' to="/login">Login</NavLink>
-                                <NavLink className='dropdown-item' onClick={() => handleLogout()}>Logout</NavLink>
-                            </NavDropdown>
-                        </Nav>
+                        {(!hideHeader || window.location.pathname === '/') &&
+                            <>
+                                <Nav className="me-auto">
+                                    <NavLink className='nav-link' to={'/'}>Home</NavLink>
+                                    <NavLink className='nav-link' to={'/users'}>Manage Users</NavLink>
+                                </Nav>
+                                <Nav>
+                                    <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                        <NavDropdown.Item onClick={() => navigate('/login')}>Login</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>
+                                    </NavDropdown>
+                                </Nav>
+                            </>
+                        }
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

@@ -10,12 +10,12 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        let token = localStorage.getItem("token");
-        if (token) {
-            navigate('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     let token = localStorage.getItem("token");
+    //     if (token) {
+    //         navigate('/');
+    //     }
+    // }, []);
 
     const handleLogin = async () => {
         if (!email && !password) {
@@ -46,11 +46,11 @@ function Login() {
                     {isLoading ? <i className='fa-solid fa-sync fa-spin'></i> : ''}&nbsp;Login
                 </button>
                 <div className='back'>
-                    <i className='fa-solid fa-angles-left'></i> Go back
+                    <i className='fa-solid fa-angles-left'></i> <span onClick={() => navigate('/')}>&nbsp;Go back</span>
                 </div>
             </div>
         </>
     );
 }
 
-export default Login;;
+export default Login;
