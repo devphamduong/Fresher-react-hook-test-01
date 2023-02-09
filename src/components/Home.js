@@ -3,8 +3,8 @@ import './Home.scss';
 function Home() {
     return (
         <>
-            <div className="home-container row">
-                <div className="left col-6-lg col-12">
+            <div className="home-container row mt-lg-5">
+                <div className="left col-lg-6 col-12">
                     <strong>Yêu cầu</strong>
                     <ul>
                         <li>Sử dụng API  từ trang web <a href="https://reqres.in/" target={'_blank'}>https://reqres.in/</a> để  tạo website.</li>
@@ -33,7 +33,7 @@ function Home() {
                         <li>Thời gian phản hồi 2 ngày làm việc kể từ ngày nhận được bài thi.</li>
                     </ul>
                 </div>
-                <div className="right col-6-lg col-12">
+                <div className="right col-lg-6 col-sm-12">
                     <strong>Basic</strong>
                     <ol>
                         <li>Create git repos, setup git local</li>

@@ -18,12 +18,12 @@ function Login() {
     // }, []);
 
     const handleLogin = async () => {
-        if (!email && !password) {
+        if (!email.trim() && !password) {
             toast.error("Email/Password is required!");
             return;
         }
         setIsLoading(true);
-        let res = await login(email, password);
+        let res = await login(email.trim(), password);
         if (res && res.token) {
             localStorage.setItem("token", res.token);
             navigate('/');
@@ -35,13 +35,19 @@ function Login() {
         setIsLoading(false);
     };
 
+    const handleKeyDown = (event) => {
+        if (event && event.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     return (
         <>
             <div className="login-container col-12 col-sm-4">
                 <div className="title">Login</div>
                 <div className="text">Email or Username ( eve.holt@reqres.in )</div>
                 <input type={'text'} value={email} onChange={(event) => setEmail(event.target.value)} placeholder='Email or Username' />
-                <input type={'password'} value={password} onChange={(event) => setPassword(event.target.value)} placeholder='Password' />
+                <input type={'password'} value={password} onChange={(event) => setPassword(event.target.value)} onKeyDown={(event) => handleKeyDown(event)} placeholder='Password' />
                 <button className={email && password && !isLoading ? 'active' : ''} disabled={email && password && !isLoading ? false : true} onClick={() => handleLogin()}>
                     {isLoading ? <i className='fa-solid fa-sync fa-spin'></i> : ''}&nbsp;Login
                 </button>
