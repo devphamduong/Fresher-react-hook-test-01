@@ -1,38 +1,30 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { login } from '../services/UserService';
+import { useNavigate } from 'react-router-dom';
+import { doLogin } from '../redux/actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
 import './Login.scss';
 
 function Login() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+    const isLoading = useSelector(state => state.user.isLoading);
+    const account = useSelector(state => state.user.account);
 
-    // useEffect(() => {
-    //     let token = localStorage.getItem("token");
-    //     if (token) {
-    //         navigate('/');
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (account && account.auth) {
+            navigate('/');
+        }
+    }, [account]);
 
     const handleLogin = async () => {
         if (!email.trim() && !password) {
             toast.error("Email/Password is required!");
             return;
         }
-        setIsLoading(true);
-        let res = await login(email.trim(), password);
-        if (res && res.token) {
-            localStorage.setItem("token", res.token);
-            navigate('/');
-        } else {
-            if (res && res.status === 400) {
-                toast.error(res.data.error);
-            }
-        }
-        setIsLoading(false);
+        dispatch(doLogin(email, password));
     };
 
     const handleKeyDown = (event) => {

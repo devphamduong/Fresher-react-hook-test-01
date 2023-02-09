@@ -1,8 +1,9 @@
-import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 
 function PrivateRoute(props) {
-    if (!localStorage.getItem("token")) {
+    const account = useSelector(state => state.user.account);
+    if (account && !account.auth) {
         return (
             <Alert variant="danger" className='mt-3'>
                 <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
